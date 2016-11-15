@@ -2,6 +2,10 @@ import re
 
 class RegexHelper:
 
+	'''
+	@input: body text of comment
+	@output: True/False depending on if input contains Markdown
+	'''
 	@staticmethod
 	def containsMD(body):
 		heading = r'\W#{1,6}\s'
@@ -25,3 +29,13 @@ class RegexHelper:
 			or re.search(url, body) is not None
 			or re.search(code, body) is not None
 			or re.search(quote, body) is not None)
+
+	'''
+	@input: body text of comment
+	@output: True/False depending on if input contains a tl;dr
+	'''
+	@staticmethod
+	def containsTLDR(body):
+		tldr = r'[tT][lL];{0,1}[dD][rR]:{0,1}\s'
+
+		return (re.search(tldr, body) is not None)

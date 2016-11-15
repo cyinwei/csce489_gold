@@ -11,7 +11,7 @@ class RegexHelper:
 		superscript = r'\w\^\w'
 		unordered = r'\W[\*\-\+]\s\S'
 		ordered = r'\W\d\.\s\S'
-		url = r'\[[\s\S]+\]\(http[s]?://[\w/\.&=\?;]+\)'
+		url = r'\[[\s\S]+\]\(http[s]?://[\w/\.&=\?;\+\-]+\)'
 		code = r'`[\s\S]+`'
 		quote = r'(&gt;){1,2}[\s\S]+'
 

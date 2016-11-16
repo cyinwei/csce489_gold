@@ -1,6 +1,6 @@
 import re
 
-class RegexHelper:
+class Munger:
 
 	'''
 	@input: body text of comment

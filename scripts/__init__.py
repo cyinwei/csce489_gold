@@ -1,2 +1,2 @@
 from RedditParser import RedditParser
-from RegexHelper import RegexHelper
+from Munger import Munger

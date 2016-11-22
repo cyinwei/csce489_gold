@@ -60,3 +60,30 @@ class Munger:
     def linkcount(text):
         links = re.findall("http://", text)
         return len(links)
+    
+    @staticmethod
+    def getTimeofDay(data):
+        hour = int(datetime.datetime.fromtimestamp(data).strftime("%H"))
+        if hour >= 5 and hour <12:
+            print(hour < 12)
+            return 'Morning'
+        elif hour >= 12 and hour < 17:
+            return 'Afternoon'
+        elif hour >= 17 and hour < 21:
+            return 'Evening'
+        elif hour >=21 and hour < 5:
+            return 'Night'
+    
+    @staticmethod
+    def emojicount(string):
+        index = 0
+        count = 0
+        string= string.lower()
+        while True:
+            index = string.find( '\u', index, len(string))
+            if index == -1:
+                break
+            else: 
+                count+=1
+                index +=1
+        return count

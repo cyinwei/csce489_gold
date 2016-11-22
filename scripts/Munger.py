@@ -39,3 +39,24 @@ class Munger:
 		tldr = r'[tT][lL];{0,1}[dD][rR]:{0,1}\s'
 
 		return (re.search(tldr, body) is not None)
+    
+    """
+    defines a "word" as whitespace separated text.
+    finds the number of words within each comment.
+    @input: body text of comment
+    @output: int -> number of words
+    """
+    @staticmethod
+    def wordcount(text):
+        words = re.findall("\S+", text)
+        return len(words)
+    """
+    defines a "link" with the http header string "http://".
+    finds the number of links within each comment.
+    @input: body text of comment
+    @output: int -> number of links
+    """
+    @staticmethod
+    def linkcount(text):
+        links = re.findall("http://", text)
+        return len(links)

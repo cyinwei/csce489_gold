@@ -1,4 +1,5 @@
 import re
+import datetime
 
 class Munger:
 
@@ -65,13 +66,12 @@ class Munger:
     def getTimeofDay(data):
         hour = int(datetime.datetime.fromtimestamp(data).strftime("%H"))
         if hour >= 5 and hour <12:
-            print(hour < 12)
             return 'Morning'
         elif hour >= 12 and hour < 17:
             return 'Afternoon'
         elif hour >= 17 and hour < 21:
             return 'Evening'
-        elif hour >=21 and hour < 5:
+        elif hour >=21 or hour < 5:
             return 'Night'
     
     @staticmethod

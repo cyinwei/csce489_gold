@@ -1,5 +1,7 @@
 import re
 import datetime
+import json
+from watson_developer_cloud import ToneAnalyzerV3
 
 class Munger:
 
@@ -87,3 +89,46 @@ class Munger:
                 count+=1
                 index +=1
         return count
+        
+    def get_Wat_json(x):
+        tone_analyzer = ToneAnalyzerV3(username='95a7beae-b5b4-4193-9481-8c2cb028580b', password='YG2mBFbH1R8G', version='2016-05-19')
+        return tone_analyzer.tone(text=x)
+    
+    def get_Anger(x):
+        return x['document_tone']['tone_categories'][0]['tones'][0]['score']
+
+    def get_Disgust(x):
+        return x['document_tone']['tone_categories'][0]['tones'][1]['score']
+
+    def get_Fear(x):
+        return x['document_tone']['tone_categories'][0]['tones'][2]['score']
+
+    def get_Joy(x):
+        return x['document_tone']['tone_categories'][0]['tones'][3]['score']
+
+    def get_Sadness(x):
+        return x['document_tone']['tone_categories'][0]['tones'][4]['score']
+
+    def get_Analytical(x):
+        return x['document_tone']['tone_categories'][1]['tones'][0]['score']
+
+    def get_Confident(x):
+        return x['document_tone']['tone_categories'][1]['tones'][1]['score']
+
+    def get_Tentative(x):
+        return x['document_tone']['tone_categories'][1]['tones'][2]['score']
+
+    def get_Openness(x):
+        return x['document_tone']['tone_categories'][2]['tones'][0]['score']
+
+    def get_Conscientiousness(x):
+        return x['document_tone']['tone_categories'][2]['tones'][1]['score']
+
+    def get_Extraversion(x):
+        return x['document_tone']['tone_categories'][2]['tones'][2]['score']
+
+    def get_Agreeableness(x):
+        return x['document_tone']['tone_categories'][2]['tones'][3]['score']
+
+    def get_Emotional_Range(x):
+        return x['document_tone']['tone_categories'][2]['tones'][4]['score']

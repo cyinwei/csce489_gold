@@ -160,3 +160,10 @@ class Munger:
             return '41-60'
          elif data >= 61 :
             return '61+'
+   
+    @staticmethod 
+    def get_listofwordcount(data, listofwords):
+        temp = 0
+        for x in listofwords:
+            temp += data.split().count(x)
+        return temp

@@ -42,7 +42,7 @@ class Munger:
         tldr = r'[tT][lL];{0,1}[dD][rR]:{0,1}\s'
 
         return (re.search(tldr, body) is not None)
-    
+
     '''
     defines a "word" as whitespace separated text.
     nds the number of words within each comment.
@@ -63,7 +63,7 @@ class Munger:
     def linkcount(text):
         links = re.findall("http://", text)
         return len(links)
-    
+
     @staticmethod
     def getTimeofDay(data):
         hour = int(datetime.datetime.fromtimestamp(data).strftime("%H"))
@@ -75,7 +75,7 @@ class Munger:
             return 'Evening'
         elif hour >=21 or hour < 5:
             return 'Night'
-    
+
     @staticmethod
     def emojicount(string):
         index = 0
@@ -85,20 +85,20 @@ class Munger:
             index = string.find( '\u', index, len(string))
             if index == -1:
                 break
-            else: 
+            else:
                 count+=1
                 index +=1
         return count
-    
-    @staticmethod   
+
+    @staticmethod
     def get_Wat_json(x):
         tone_analyzer = ToneAnalyzerV3(username='95a7beae-b5b4-4193-9481-8c2cb028580b', password='YG2mBFbH1R8G', version='2016-05-19')
         return tone_analyzer.tone(text=x)
-    
-    @staticmethod   
+
+    @staticmethod
     def get_Anger(x):
         return x['document_tone']['tone_categories'][0]['tones'][0]['score']
-    
+
     @staticmethod
     def get_Disgust(x):
         return x['document_tone']['tone_categories'][0]['tones'][1]['score']
@@ -146,8 +146,8 @@ class Munger:
     @staticmethod
     def get_Emotional_Range(x):
         return x['document_tone']['tone_categories'][2]['tones'][4]['score']
-    
-    
+
+
     @staticmethod
     def getUpsClassification(data):
         if data < 0:
@@ -156,12 +156,12 @@ class Munger:
             return '0-20'
         elif data >= 21 and data <= 40 :
             return '21-40'
-         elif data >= 41 and data <= 60 :
+        elif data >= 41 and data <= 60 :
             return '41-60'
-         elif data >= 61 :
+        elif data >= 61 :
             return '61+'
-   
-    @staticmethod 
+
+    @staticmethod
     def get_listofwordcount(data, listofwords):
         temp = 0
         for x in listofwords:

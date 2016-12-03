@@ -8,8 +8,8 @@
   <meta name="description" content="Reddit Gold Analysis">
   <meta name="author" content="Jeremy Moorman & John Ansted">
 
-  <link rel="stylesheet" href="css/styles.css?v=1.0">
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/styles.css?v=1.0">
   <!--[if lt IE 9]>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
   <![endif]-->
@@ -21,10 +21,10 @@
     Page Skeleton
   </h1>
 
-  <form id="test">
-    <div class="form-group">
-      <label for="sel1">Subreddit:</label>
-      <select class="form-control" id="subreddit" name="subreddit">
+  <form>
+    <div class="form-group required">
+      <label for="subreddit">Subreddit</label>
+      <select class="form-control" id="subreddit" name="subreddit" required>
         <option value="" selected disabled>Select your subreddit...</option>
         <option>AdviceAnimals</option>
         <option>AskReddit</option>
@@ -39,16 +39,30 @@
       </select>
     </div>
 
-    <div class="form-group">
-      <label for="comment">Comment:</label>
-      <textarea class="form-control" rows="5" id="comment" placeholder="Type your comment here..." name="comment"></textarea>
+    </br>
+
+    <div class="form-group required">
+      <label for="comment">Comment</label>
+      <textarea class="form-control" rows="5" id="comment" placeholder="Type your comment here..." name="comment" required></textarea>
     </div>
 
+    <p style="color:red">*required</p>
+
+
+    </br>
     <button type="submit" class="btn btn-default">Submit</button>
   </form>
 
-  <!--<button type="button" class="btn btn-primary" onclick="callapi()">Test API</button>-->
-
+  <div id="res" style="display: none;">
+    <h2>Your submission</h2>
+    <h3>Subreddit:</h3>
+    <p id='ressubreddit'></p>
+    <h3>Date and time:</h3>
+    <p id='resdatetime'></p>
+    <h3>Comment:</h3>
+    <p id='rescomment'></p>
+  </div>
+  </br>
   <p id="response"></p>
 
   <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>

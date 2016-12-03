@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 import json
+import re
 
 # Create your views here.
 
@@ -19,6 +20,7 @@ def analyze(req):
     res['comment'] = req.POST['comment']
     res['subreddit'] = req.POST['subreddit']
     res['datetime'] = req.POST['datetime']
+    res['wordcount'] = len(re.findall("\S+", req.POST['comment']))
 
     '''
     This is where we will analyze the posted data.

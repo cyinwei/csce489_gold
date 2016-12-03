@@ -11,3 +11,16 @@ var callapi = function() {
             $("#response").append(("<p style='color:red;'>" + new Date()) + " failed</p>");
         })
 }
+
+$( "form" ).on( "submit", function( event ) {
+    event.preventDefault();
+
+    var data = $( this ).serialize()
+    var unixtime = Date.parse(new Date())/1000
+
+    data += ("&datetime=" + unixtime)
+
+    console.log( data );
+
+    callapi()
+});

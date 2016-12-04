@@ -1,7 +1,12 @@
 import re
+import os
 import datetime
+import sys
 import json
+import requests
+import time
 from watson_developer_cloud import ToneAnalyzerV3
+import grammar_check
 
 class Munger:
 
@@ -91,65 +96,76 @@ class Munger:
         return count
 
     @staticmethod
-    def get_Wat_json(x):
-        tone_analyzer = ToneAnalyzerV3(username='95a7beae-b5b4-4193-9481-8c2cb028580b', password='YG2mBFbH1R8G', version='2016-05-19')
-        return tone_analyzer.tone(text=x)
+    def get_Wat_json(user, password, x):
+        result = None
+        while result is None:
+            try:
+                tone_analyzer = ToneAnalyzerV3(username= user, password= password, version='2016-05-19')
+                test =  tone_analyzer.tone(text=x)
+                temp = test['document_tone']
+                return temp
+            except:
+                print "Unexpected error:", sys.exc_info()[0]
+                print x
+                pass
 
-    @staticmethod
-    def get_Anger(x):
-        return x['document_tone']['tone_categories'][0]['tones'][0]['score']
-
-    @staticmethod
-    def get_Disgust(x):
-        return x['document_tone']['tone_categories'][0]['tones'][1]['score']
-
-    @staticmethod
-    def get_Fear(x):
-        return x['document_tone']['tone_categories'][0]['tones'][2]['score']
-
-    @staticmethod
-    def get_Joy(x):
-        return x['document_tone']['tone_categories'][0]['tones'][3]['score']
-
-    @staticmethod
-    def get_Sadness(x):
-        return x['document_tone']['tone_categories'][0]['tones'][4]['score']
-
-    @staticmethod
-    def get_Analytical(x):
-        return x['document_tone']['tone_categories'][1]['tones'][0]['score']
-
-    @staticmethod
-    def get_Confident(x):
-        return x['document_tone']['tone_categories'][1]['tones'][1]['score']
-
-    @staticmethod
-    def get_Tentative(x):
-        return x['document_tone']['tone_categories'][1]['tones'][2]['score']
-
-    @staticmethod
-    def get_Openness(x):
-        return x['document_tone']['tone_categories'][2]['tones'][0]['score']
-
-    @staticmethod
-    def get_Conscientiousness(x):
-        return x['document_tone']['tone_categories'][2]['tones'][1]['score']
-
-    @staticmethod
-    def get_Extraversion(x):
-        return x['document_tone']['tone_categories'][2]['tones'][2]['score']
-
-    @staticmethod
-    def get_Agreeableness(x):
-        return x['document_tone']['tone_categories'][2]['tones'][3]['score']
-
-    @staticmethod
-    def get_Emotional_Range(x):
-        return x['document_tone']['tone_categories'][2]['tones'][4]['score']
 
 
     @staticmethod
-    def getUpsClassification(data):
+    def get_Wat_Anger(json_object):
+        return json_object['tone_categories'][0]['tones'][0]['score']
+
+    @staticmethod
+    def get_Wat_Disgust(json_object):
+        return json_object['tone_categories'][0]['tones'][1]['score']
+
+    @staticmethod
+    def get_Wat_Fear(json_object):
+        return json_object['tone_categories'][0]['tones'][2]['score']
+
+    @staticmethod
+    def get_Wat_Joy(json_object):
+        return json_object['tone_categories'][0]['tones'][3]['score']
+
+    @staticmethod
+    def get_Wat_Sadness(json_object):
+        return json_object['tone_categories'][0]['tones'][4]['score']
+
+    @staticmethod
+    def get_Wat_Analytical(json_object):
+        return json_object['tone_categories'][1]['tones'][0]['score']
+
+    @staticmethod
+    def get_Wat_Confident(json_object):
+        return json_object['tone_categories'][1]['tones'][1]['score']
+
+    @staticmethod
+    def get_Wat_Tentative(json_object):
+        return json_object['tone_categories'][1]['tones'][2]['score']
+
+    @staticmethod
+    def get_Wat_Openness(json_object):
+        return json_object['tone_categories'][2]['tones'][0]['score']
+
+    @staticmethod
+    def get_Wat_Conscientiousness(json_object):
+        return json_object['tone_categories'][2]['tones'][1]['score']
+
+    @staticmethod
+    def get_Wat_Extraversion(json_object):
+        return json_object['tone_categories'][2]['tones'][2]['score']
+
+    @staticmethod
+    def get_Wat_Agreeableness(json_object):
+        return json_object['tone_categories'][2]['tones'][3]['score']
+
+    @staticmethod
+    def get_Wat_Emotional_Range(json_object):
+        return json_object['tone_categories'][2]['tones'][4]['score']
+
+
+    @staticmethod
+    def get_Up_Classification(data):
         if data < 0:
             return 'Under 0'
         elif data >= 0 and data <= 20 :
@@ -167,3 +183,77 @@ class Munger:
         for x in listofwords:
             temp += data.split().count(x)
         return temp
+    
+    
+    
+    @staticmethod
+    def get_sentiment_json(body):
+        result = None
+        while result is None:
+            try:
+                return  requests.post("http://text-processing.com/api/sentiment/", data={'text': body}).json()
+            except:
+                pass
+    
+    @staticmethod
+    def get_sentiment_neg(json_object):
+        return  json_object['probability']['neg']
+    
+    @staticmethod
+    def get_sentiment_pos(json_object):
+        return  json_object['probability']['pos']
+    
+    @staticmethod
+    def get_sentiment_neutral(json_object):
+        return  json_object['probability']['neutral']
+    
+    @staticmethod
+    def get_sentiment_label(json_object):
+        return  json_object['label']
+
+    @staticmethod
+    def get_grammer_error_count(body):
+        try:
+            tool = grammar_check.LanguageTool('en-GB')
+            return len(tool.check(body))
+        except:
+            return 0
+    
+    @staticmethod
+    def nfl_flair_number(flair):
+        teams = ['lions','seahawks','texans','bears','eagles','dolphins','packers','patriots','falcons','panthers',
+             'fortyniners','cowboys','saints','broncos','jaguars','raiders','giants','ravens','nfl','bills',
+             'browns','colts','vikings','chargers','jets','bengals','steelers','buccaneers','cardinals','chiefs',
+             'redskins','titans','rams','twitter','giants official']
+        if flair in teams:
+            i = 1
+            for team in teams:
+                if team == flair:
+                    return i
+                i+=1
+        else: 
+            return 0
+        
+    @staticmethod
+    def AdviceAnimals_flair_number(flair):
+        animals = ['picard','sap','zoid','eel','awesomepenguin','fa','cwolf','iwolf','ocdotter','businesscat',
+               'cfox','stoner','nyan','pedo','wonka','fry','aliens','ggg','skid','yuno','allthings','adog','ned']
+        if flair in animals:
+            i = 1
+            for animal in animals:
+                if animal == flair:
+                    return i
+                i+=1
+        else: 
+            return 0
+        
+    @staticmethod
+    def other_flair(flair):
+        if flair == '':
+            return False 
+        else: 
+            return True
+        
+    @staticmethod
+    def remove_emptyline(text):
+        return os.linesep.join([s for s in text.splitlines() if s])

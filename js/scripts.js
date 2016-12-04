@@ -24,19 +24,25 @@ $( "form" ).on( "submit", function( event ) {
 
     $.post("https://ec2-35-163-195-254.us-west-2.compute.amazonaws.com/api/analyze", data=req)
         .done(function(res) {
-            $("#res").css({'color': 'green'});
+            if(res['gilded?'] === 'True') {
+                $("#resgilded").html("Your comment has a chance of being gilded!").css({'color': 'green'});
+            }
+            else {
+                $("#resgilded").html("Your comment does not have a chance of being gilded.").css({'color': 'red'});
+            }
+
+            // $("#res").css({'color': 'green'});
+            // $("#res").css({"display": "block"})
+            // $("#ressubreddit").html(res['subreddit']);
+            // $("#resdatetime").html(new Date(res['datetime'] * 1000));
+            // $("#rescomment").html(res['comment']);
         })
         .fail(function(res) {
-            $("#res").css({'color': 'red'});
+            // $("#res").css({'color': 'red'});
+            // $("#res").css({"display": "none"})
         })
         .always(function(res) {
-            $("#res").css({"display": "block"})
-
-            $("#ressubreddit").html(res['subreddit']);
-            $("#resdatetime").html(new Date(res['datetime'] * 1000));
-            $("#rescomment").html(res['comment']);
-
-            $("#response").html(JSON.stringify(res))
+            // $("#response").html(JSON.stringify(res))
             console.log(res)
         });
 

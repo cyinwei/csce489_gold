@@ -166,16 +166,17 @@ class Munger:
 
     @staticmethod
     def get_Up_Classification(data):
-        if data < 0:
-            return 'Under 0'
-        elif data >= 0 and data <= 20 :
-            return '0-20'
-        elif data >= 21 and data <= 40 :
-            return '21-40'
-        elif data >= 41 and data <= 60 :
-            return '41-60'
-        elif data >= 61 :
-            return '61+'
+        return int(data/1000)
+        # if data < 0:
+        #     return 'Under 0'
+        # elif data >= 0 and data <= 20 :
+        #     return '0-20'
+        # elif data >= 21 and data <= 40 :
+        #     return '21-40'
+        # elif data >= 41 and data <= 60 :
+        #     return '41-60'
+        # elif data >= 61 :
+        #     return '61+'
 
     @staticmethod
     def get_listofwordcount(data, listofwords):
@@ -183,9 +184,7 @@ class Munger:
         for x in listofwords:
             temp += data.split().count(x)
         return temp
-    
-    
-    
+
     @staticmethod
     def get_sentiment_json(body):
         result = None
@@ -194,19 +193,19 @@ class Munger:
                 return  requests.post("http://text-processing.com/api/sentiment/", data={'text': body}).json()
             except:
                 pass
-    
+
     @staticmethod
     def get_sentiment_neg(json_object):
         return  json_object['probability']['neg']
-    
+
     @staticmethod
     def get_sentiment_pos(json_object):
         return  json_object['probability']['pos']
-    
+
     @staticmethod
     def get_sentiment_neutral(json_object):
         return  json_object['probability']['neutral']
-    
+
     @staticmethod
     def get_sentiment_label(json_object):
         return  json_object['label']
@@ -218,7 +217,7 @@ class Munger:
             return len(tool.check(body))
         except:
             return 0
-    
+
     @staticmethod
     def nfl_flair_number(flair):
         teams = ['lions','seahawks','texans','bears','eagles','dolphins','packers','patriots','falcons','panthers',
@@ -231,9 +230,9 @@ class Munger:
                 if team == flair:
                     return i
                 i+=1
-        else: 
+        else:
             return 0
-        
+
     @staticmethod
     def AdviceAnimals_flair_number(flair):
         animals = ['picard','sap','zoid','eel','awesomepenguin','fa','cwolf','iwolf','ocdotter','businesscat',
@@ -244,16 +243,48 @@ class Munger:
                 if animal == flair:
                     return i
                 i+=1
-        else: 
+        else:
             return 0
-        
+
     @staticmethod
     def other_flair(flair):
         if flair == '':
-            return False 
-        else: 
+            return False
+        else:
             return True
-        
+
     @staticmethod
     def remove_emptyline(text):
         return os.linesep.join([s for s in text.splitlines() if s])
+
+    @staticmethod
+    def munge_dataset(data):
+        if 'body' in data:
+            data['body'] = data['body'].astype(str)
+
+            data['Contains MD'] = data['body'].map(lambda x: Munger.containsMD(x))
+            data['Contains tldr'] = data['body'].map(lambda x: Munger.containsTLDR(x))
+            data['Word Count'] = data['body'].map(lambda x: Munger.wordcount(x))
+            data['Emoji Count'] = data['body'].map(lambda x: Munger.emojicount(x))
+            # data['Grammar Errors'] = data['body'].map(lambda x: Munger.get_grammer_error_count(x))
+
+        if 'created_utc' in data:
+            data['Time of Day'] = data['created_utc'].map(lambda x: Munger.getTimeofDay(x))
+            data['Time of Day'] = data['Time of Day'].map({'Afternoon': 1,'Evening': 2,'Night': 3,'Morning': 4})
+
+        if 'Sentiment Label' in data:
+            data['Sentiment Label'] = data['Sentiment Label'].map({'neg': 1,'neutral': 2,'pos': 3})
+
+        if 'score' in data:
+            data['Score Bracket'] = data['score'].map(lambda x: Munger.get_Up_Classification(x))
+
+        if ('author_flair_text' in data) and ('author_flair_css_class' in data):
+            data['Contains Flair'] = data['author_flair_text'].astype(bool) & data['author_flair_css_class'].astype(bool)
+
+        # if 'subreddit' in data:
+        #     if data['subreddit'].contains('AdviceAnimals'):
+        #         data['subreddit'] = data['subreddit'].map(lambda x: Munger.AdviceAnimals_flair_number(x))
+
+        # TODO: Add watson functions for use on server
+
+        return data

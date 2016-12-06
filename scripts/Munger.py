@@ -266,7 +266,7 @@ class Munger:
             data['Contains tldr'] = data['body'].map(lambda x: Munger.containsTLDR(x))
             data['Word Count'] = data['body'].map(lambda x: Munger.wordcount(x))
             data['Emoji Count'] = data['body'].map(lambda x: Munger.emojicount(x))
-            # data['Grammar Errors'] = data['body'].map(lambda x: Munger.get_grammer_error_count(x))
+            data['Grammar Errors'] = data['body'].map(lambda x: Munger.get_grammer_error_count(x))
 
         if 'created_utc' in data:
             data['Time of Day'] = data['created_utc'].map(lambda x: Munger.getTimeofDay(x))
@@ -281,9 +281,13 @@ class Munger:
         if ('author_flair_text' in data) and ('author_flair_css_class' in data):
             data['Contains Flair'] = data['author_flair_text'].astype(bool) & data['author_flair_css_class'].astype(bool)
 
-        # if 'subreddit' in data:
-        #     if data['subreddit'].contains('AdviceAnimals'):
-        #         data['subreddit'] = data['subreddit'].map(lambda x: Munger.AdviceAnimals_flair_number(x))
+        if 'author_flair_css_class' in data and 'subreddit' in data:
+            if data['subreddit'].unique()[0] == 'nfl':
+                data['flair'] = data['author_flair_css_class'].map(lambda x: Munger.nfl_flair_number(x))
+            elif data['subreddit'].unique()[0] == 'Advice Animals':
+                data['flair'] = data['author_flair_css_class'].map(lambda x: Munger.AdviceAnimals_flair_number(x))
+            else:
+                data['flair'] = data['author_flair_css_class'].map(lambda x: Munger.other_flair(x))
 
         # TODO: Add watson functions for use on server
 

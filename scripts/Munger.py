@@ -266,7 +266,7 @@ class Munger:
             data['Contains tldr'] = data['body'].map(lambda x: Munger.containsTLDR(x))
             data['Word Count'] = data['body'].map(lambda x: Munger.wordcount(x))
             data['Emoji Count'] = data['body'].map(lambda x: Munger.emojicount(x))
-            data['Grammar Errors'] = data['body'].map(lambda x: Munger.get_grammer_error_count(x))
+            # data['Grammar Errors'] = data['body'].map(lambda x: Munger.get_grammer_error_count(x))
 
         if 'created_utc' in data:
             data['Time of Day'] = data['created_utc'].map(lambda x: Munger.getTimeofDay(x))

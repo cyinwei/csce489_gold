@@ -166,7 +166,7 @@ class Munger:
 
     @staticmethod
     def get_Up_Classification(data):
-        return int(data/1000)
+        return int(data/100)
         # if data < 0:
         #     return 'Under 0'
         # elif data >= 0 and data <= 20 :

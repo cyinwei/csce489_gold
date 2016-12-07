@@ -53,7 +53,7 @@ def adviceanimals(df):
         'Watson Emotional Range',
     ]
 
-    return str(forest.predict(df[features])[0])
+    return {'features': features, 'prediction': str(forest.predict(df[features])[0])}
 
 
 def askreddit(df):
@@ -83,7 +83,7 @@ def askreddit(df):
         'Watson Emotional Range'
     ]
 
-    return str(forest.predict(df[features])[0])
+    return {'features': features, 'prediction': str(forest.predict(df[features])[0])}
 
 
 def funny(df):
@@ -105,7 +105,7 @@ def funny(df):
         'Watson Emotional Range',
     ]
 
-    return str(forest.predict(df[features])[0])
+    return {'features': features, 'prediction': str(forest.predict(df[features])[0])}
 
 
 def news(df):
@@ -113,10 +113,13 @@ def news(df):
         forest = pickle.load(f) # imports classifier from file
 
     features = [
+        'Score Bracket',
+        'Word Count',
+        'Watson Openness'
     ]
 
 
-    return str(forest.predict(df[features])[0])
+    return {'features': features, 'prediction': str(forest.predict(df[features])[0])}
 
 
 def nfl(df):
@@ -151,7 +154,7 @@ def nfl(df):
         'Watson Emotional Range',
     ]
 
-    return str(forest.predict(df[features])[0])
+    return {'features': features, 'prediction': str(forest.predict(df[features])[0])}
 
 
 def pics(df):
@@ -185,7 +188,7 @@ def pics(df):
         'Watson Emotional Range',
     ]
 
-    return str(forest.predict(df[features])[0])
+    return {'features': features, 'prediction': str(forest.predict(df[features])[0])}
 
 
 def todayilearned(df):
@@ -203,7 +206,7 @@ def todayilearned(df):
         'Watson Joy',
     ]
 
-    return str(forest.predict(df[features])[0])
+    return {'features': features, 'prediction': str(forest.predict(df[features])[0])}
 
 
 def videos(df):
@@ -211,9 +214,19 @@ def videos(df):
         forest = pickle.load(f) # imports classifier from file
 
     features = [
+        'Score Bracket',
+        'Word Count',
+        'body cluster',
+        'Grammer Errors',
+        'Watson Disgust',
+        'Watson Fear',
+        'Watson Joy',
+        'Watson Sadness',
+        'Watson Openness',
+        'Watson Agreeableness'
     ]
 
-    return str(forest.predict(df[features])[0])
+    return {'features': features, 'prediction': str(forest.predict(df[features])[0])}
 
 
 def worldnews(df):
@@ -248,7 +261,7 @@ def worldnews(df):
         'Watson Emotional Range'
     ]
 
-    return str(forest.predict(df[features])[0])
+    return {'features': features, 'prediction': str(forest.predict(df[features])[0])}
 
 
 def wtf(df):
@@ -272,7 +285,7 @@ def wtf(df):
         'Watson Emotional Range',
     ]
 
-    return str(forest.predict(df[features])[0])
+    return {'features': features, 'prediction': str(forest.predict(df[features])[0])}
 
 
 # Create your views here.
@@ -320,27 +333,32 @@ def analyze(req):
 
     # Determine which classifiers to use
     if req.POST['subreddit'] == 'AdviceAnimals':
-        res['gilded?'] = adviceanimals(df)
+        pred = adviceanimals(df)
     elif req.POST['subreddit'] == 'AskReddit':
-        res['gilded?'] = askreddit(df)
+        pred = askreddit(df)
     elif req.POST['subreddit'] == 'funny':
-        res['gilded?'] = funny(df)
+        pred = funny(df)
     elif req.POST['subreddit'] == 'news':
-        res['gilded?'] = news(df)
+        pred = news(df)
     elif req.POST['subreddit'] == 'nfl':
-        res['gilded?'] = nfl(df)
+        pred = nfl(df)
     elif req.POST['subreddit'] == 'pics':
-        res['gilded?'] = pics(df)
+        pred = pics(df)
     elif req.POST['subreddit'] == 'todayilearned':
-        res['gilded?'] = todayilearned(df)
+        pred = todayilearned(df)
     elif req.POST['subreddit'] == 'videos':
-        res['gilded?'] = videos(df)
+        pred = videos(df)
     elif req.POST['subreddit'] == 'worldnews':
-        res['gilded?'] = worldnews(df)
+        pred = worldnews(df)
     elif req.POST['subreddit'] == 'WTF':
-        res['gilded?'] = wtf(df)
+        pred = wtf(df)
     else:
         return HttpResponse('Not a valid subreddit')
+
+    # Pull out prediction and relevant features
+    for value in pred['features']:
+        res[value] = str(df[value][0])
+    res['prediction'] = pred['prediction']
 
     # Respond with our conclusion
     return HttpResponse(json.dumps(res), content_type="application/json")

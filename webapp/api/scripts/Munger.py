@@ -157,7 +157,7 @@ class Munger:
 
     @staticmethod
     def get_Up_Classification(data):
-        return int(data/1000)
+        return int(data/100)
 
     @staticmethod
     def get_listofwordcount(data, listofwords):
@@ -239,7 +239,6 @@ class Munger:
             data['body'] = data['body'].astype(str)
 
             # Watson
-            print 'Watson'
             watson_json = data['body'].map(lambda x: Munger.get_Wat_json(username, password, x))
             data['Watson Anger'] = watson_json.map(lambda x: Munger.get_Wat_Anger(x))
             data['Watson Disgust'] = watson_json.map(lambda x: Munger.get_Wat_Disgust(x))
@@ -255,20 +254,23 @@ class Munger:
             data['Watson Agreeableness'] = watson_json.map(lambda x: Munger.get_Wat_Agreeableness(x))
             data['Watson Emotional Range'] = watson_json.map(lambda x: Munger.get_Wat_Emotional_Range(x))
 
-            print 'Sentiment'
+            # Sentiment
             sentiment_json = data['body'].map(lambda x: Munger.get_sentiment_json(x))
-            data['Sentiment Label'] = sentiment_json.map(lambda x: Munger.get_sentiment_label(x)).map({'Afternoon': 1,'Evening': 2,'Night': 3,'Morning': 4})
+            data['Sentiment Negative'] = sentiment_json.map(lambda x: Munger.get_sentiment_neg(x))
+            data['Sentiment Neutral'] = sentiment_json.map(lambda x: Munger.get_sentiment_neutral(x))
+            data['Sentiment Positive'] = sentiment_json.map(lambda x: Munger.get_sentiment_pos(x))
+            data['Sentiment Label'] = sentiment_json.map(lambda x: Munger.get_sentiment_label(x)).map({'neg': 1,'neutral': 2,'pos': 3})
 
-            print 'Markdown'
+            # Markdown
             data['Contains MD'] = data['body'].map(lambda x: Munger.containsMD(x))
 
-            print 'tldr'
+            # tldr
             data['Contains tldr'] = data['body'].map(lambda x: Munger.containsTLDR(x))
 
-            print 'Word Count'
+            # Word Count
             data['Word Count'] = data['body'].map(lambda x: Munger.wordcount(x))
 
-
+            # Emoji Count
             data['Emoji Count'] = data['body'].map(lambda x: Munger.emojicount(x))
 
             # Grammar Errors (Misspelled for consistency)
@@ -290,5 +292,8 @@ class Munger:
                 data['flair'] = data['author_flair_css_class'].map(lambda x: Munger.AdviceAnimals_flair_number(x))
             else:
                 data['flair'] = data['author_flair_css_class'].map(lambda x: Munger.other_flair(x))
+
+        if 'score' in data:
+            data['Score Bracket'] = data['score'].map(lambda x: Munger.get_Up_Classification(x))
 
         return data

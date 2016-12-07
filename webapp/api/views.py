@@ -40,9 +40,17 @@ def adviceanimals(df):
         'Score Bracket',
         'Word Count',
         'body cluster',
+        'Grammer Errors',
+        'Sentiment Positive',
+        'Watson Anger',
         'Watson Disgust',
+        'Watson Fear',
         'Watson Joy',
-        'Watson Agreeableness'
+        'Watson Openness',
+        'Watson Conscientiousness',
+        'Watson Extraversion',
+        'Watson Agreeableness',
+        'Watson Emotional Range',
     ]
 
     return str(forest.predict(df[features])[0])
@@ -55,10 +63,24 @@ def askreddit(df):
     features = [
         'Score Bracket',
         'Word Count',
+        'Time of Day',
+        'watson cluster',
+        'body cluster',
+        'Grammer Errors',
+        'Sentiment Negative',
+        'Sentiment Positive',
         'Sentiment Neutral',
+        'Watson Anger',
         'Watson Disgust',
+        'Watson Fear',
+        'Watson Joy',
         'Watson Sadness',
-        'Watson Agreeableness'
+        'Watson Tenative',
+        'Watson Openness',
+        'Watson Conscientiousness',
+        'Watson Extraversion',
+        'Watson Agreeableness',
+        'Watson Emotional Range'
     ]
 
     return str(forest.predict(df[features])[0])
@@ -69,6 +91,18 @@ def funny(df):
         forest = pickle.load(f) # imports classifier from file
 
     features = [
+        'Score Bracket',
+        'Contains MD',
+        'Word Count',
+        'body cluster',
+        'Grammer Errors',
+        'Sentiment Neutral',
+        'Watson Anger',
+        'Watson Joy',
+        'Watson Sadness',
+        'Watson Extraversion',
+        'Watson Agreeableness',
+        'Watson Emotional Range',
     ]
 
     return str(forest.predict(df[features])[0])
@@ -81,6 +115,7 @@ def news(df):
     features = [
     ]
 
+
     return str(forest.predict(df[features])[0])
 
 
@@ -89,6 +124,31 @@ def nfl(df):
         forest = pickle.load(f) # imports classifier from file
 
     features = [
+        'Score Bracket',
+        'Contains MD',
+        'Word Count',
+        'Time of Day',
+        'watson cluster',
+        'body cluster',
+        'Grammer Errors',
+        'Sentiment Label',
+        'Sentiment Negative',
+        'Sentiment Positive',
+        'Sentiment Neutral',
+        'flair',
+        'Watson Anger',
+        'Watson Disgust',
+        'Watson Fear',
+        'Watson Joy',
+        'Watson Sadness',
+        'Watson Analytical',
+        'Watson Confident',
+        'Watson Tenative',
+        'Watson Openness',
+        'Watson Conscientiousness',
+        'Watson Extraversion',
+        'Watson Agreeableness',
+        'Watson Emotional Range',
     ]
 
     return str(forest.predict(df[features])[0])
@@ -99,6 +159,30 @@ def pics(df):
         forest = pickle.load(f) # imports classifier from file
 
     features = [
+        'Score Bracket',
+        'Contains MD',
+        'Word Count',
+        'Time of Day',
+        'watson cluster',
+        'body cluster',
+        'Grammer Errors',
+        'Sentiment Label',
+        'Sentiment Negative',
+        'Sentiment Positive',
+        'Sentiment Neutral',
+        'Watson Anger',
+        'Watson Disgust',
+        'Watson Fear',
+        'Watson Joy',
+        'Watson Sadness',
+        'Watson Analytical',
+        'Watson Confident',
+        'Watson Tenative',
+        'Watson Openness',
+        'Watson Conscientiousness',
+        'Watson Extraversion',
+        'Watson Agreeableness',
+        'Watson Emotional Range',
     ]
 
     return str(forest.predict(df[features])[0])
@@ -109,6 +193,14 @@ def todayilearned(df):
         forest = pickle.load(f) # imports classifier from file
 
     features = [
+        'Score Bracket',
+        'Word Count',
+        'body cluster',
+        'Sentiment Negative',
+        'Sentiment Positive',
+        'Sentiment Neutral',
+        'Watson Fear',
+        'Watson Joy',
     ]
 
     return str(forest.predict(df[features])[0])
@@ -129,6 +221,31 @@ def worldnews(df):
         forest = pickle.load(f) # imports classifier from file
 
     features = [
+        'Score Bracket',
+        'Contains MD',
+        'Word Count',
+        'Time of Day',
+        'watson cluster',
+        'body cluster',
+        'Grammer Errors',
+        'Sentiment Label',
+        'Sentiment Negative',
+        'Sentiment Positive',
+        'Sentiment Neutral',
+        'flair',
+        'Watson Anger',
+        'Watson Disgust',
+        'Watson Fear',
+        'Watson Joy',
+        'Watson Sadness',
+        'Watson Analytical',
+        'Watson Confident',
+        'Watson Tenative',
+        'Watson Openness',
+        'Watson Conscientiousness',
+        'Watson Extraversion',
+        'Watson Agreeableness',
+        'Watson Emotional Range'
     ]
 
     return str(forest.predict(df[features])[0])
@@ -139,6 +256,20 @@ def wtf(df):
         forest = pickle.load(f) # imports classifier from file
 
     features = [
+        'Score Bracket',
+        'Word Count',
+        'body cluster',
+        'Grammer Errors',
+        'Sentiment Positive',
+        'Watson Anger',
+        'Watson Disgust',
+        'Watson Fear',
+        'Watson Joy',
+        'Watson Openness',
+        'Watson Conscientiousness',
+        'Watson Extraversion',
+        'Watson Agreeableness',
+        'Watson Emotional Range',
     ]
 
     return str(forest.predict(df[features])[0])
@@ -157,15 +288,19 @@ def index(req):
 def analyze(req):
     # Read in inputs from request
     res = {}
-    res['comment'] = req.POST['comment']
-    res['subreddit'] = req.POST['subreddit']
 
     # Create datafram
-    df = pd.DataFrame.from_dict({'body': [res['comment']], 'created_utc': [int(time.time())], 'score': [int(req.POST['score'])]})
+    df = pd.DataFrame.from_dict({
+        'body': [req.POST['comment']],
+        'subreddit': [req.POST['subreddit']],
+        'created_utc': [int(time.time())],
+        'score': [int(req.POST['score'])],
+        'author_flair_css_class': [req.POST['flair']]
+    })
 
     # Munge Data
     try:
-        df = mg.munge_dataset(df, badwords, 'a9b99375-b559-4e7e-a033-25c8ae178c6e', 'RRSUytaQ3nMz')
+        df = mg.munge_dataset(df, badwords, 'user', 'password')
     except:
         return HttpResponse(content="Unexpected error:" + str(sys.exc_info()[0]))
 

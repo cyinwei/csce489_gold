@@ -308,7 +308,7 @@ def analyze(req):
         'subreddit': [req.POST['subreddit']],
         'created_utc': [int(time.time())],
         'score': [int(req.POST['score'])],
-        'author_flair_css_class': [req.POST['flair']]
+        'author_flair_css_class': [str(req.POST['flair'])]
     })
 
     # Munge Data

@@ -17,58 +17,70 @@
 
 <body>
 
-  <h1>
-    Page Skeleton
-  </h1>
+  <div class="container">
+    <h1>
+      Page Skeleton
+    </h1>
 
-  <form>
-    <div class="form-group required">
-      <label for="subreddit">Subreddit</label>
-      <select class="form-control" id="subreddit" name="subreddit" required>
-        <option value="" selected disabled>Select your subreddit...</option>
-        <option>AdviceAnimals</option>
-        <option>AskReddit</option>
-        <option>funny</option>
-        <option>news</option>
-        <option>nfl</option>
-        <option>pics</option>
-        <option>todayilearned</option>
-        <option>videos</option>
-        <option>worldnews</option>
-        <option>WTF</option>
-      </select>
+    <form>
+
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-2">
+            <div class="form-group required">
+              <label for="score">Score:</label>
+              <input type="number" class="form-control" id="score" name="score" placeholder='0' required></input>
+            </div>
+            <div class="form-group required">
+              <label for="flair">Flair:</label>
+              <input type="text" class="form-control" id="flair" name="flair" placeholder='Flair' value='None' required></input>
+            </div>
+            <div class="form-group required">
+              <label for="subreddit">Subreddit</label>
+              <select class="form-control" id="subreddit" name="subreddit" required>
+                <option value="" selected disabled>Subreddit...</option>
+                <option>AdviceAnimals</option>
+                <option>AskReddit</option>
+                <option>funny</option>
+                <option>news</option>
+                <option>nfl</option>
+                <option>pics</option>
+                <option>todayilearned</option>
+                <option>videos</option>
+                <option>worldnews</option>
+                <option>WTF</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-sm-10">
+            <div class="form-group required">
+              <label for="comment">Comment</label>
+              <textarea class="form-control" rows="9" id="comment" placeholder="Type your comment here..." name="comment" required></textarea>
+            </div>
+          </div>
+        </div>
+        <p style="color:red">*required</p>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </div>
+    </form>
+
+    <div id="classfification">
+      <h2>Will your comment be gilded?</h2>
+      <p id="resgilded"></p>
     </div>
-
-    </br>
-
-    <div class="form-group required">
-      <label for="comment">Comment</label>
-      <textarea class="form-control" rows="5" id="comment" placeholder="Type your comment here..." name="comment" required></textarea>
+    <!--<div id="res" style="display: none;">
+      <h2>Your submission</h2>
+      <h3>Subreddit:</h3>
+      <p id='ressubreddit'></p>
+      <h3>Date and time:</h3>
+      <p id='resdatetime'></p>
+      <h3>Comment:</h3>
+      <p id='rescomment'></p>
     </div>
-
-    <p style="color:red">*required</p>
-
-
     </br>
-    <button type="submit" class="btn btn-default">Submit</button>
-  </form>
+    <p id="response"></p>-->
 
-  <div id="classfification">
-    <h2>Will your comment be gilded?</h2>
-    <p id="resgilded"></p>
   </div>
-  <!--<div id="res" style="display: none;">
-    <h2>Your submission</h2>
-    <h3>Subreddit:</h3>
-    <p id='ressubreddit'></p>
-    <h3>Date and time:</h3>
-    <p id='resdatetime'></p>
-    <h3>Comment:</h3>
-    <p id='rescomment'></p>
-  </div>
-  </br>
-  <p id="response"></p>-->
-
   <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   <script src="js/scripts.js"></script>

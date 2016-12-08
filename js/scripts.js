@@ -18,13 +18,15 @@ $( "form" ).on( "submit", function( event ) {
     var req = $( this ).serialize()
     var unixtime = Date.parse(new Date())/1000
 
-    req += ("&datetime=" + unixtime)
+    // req += ("&datetime=" + unixtime)
+    // // TODO: Read in actual flair
+    // req += ("&flair=" + 'testflair')
 
     console.log( req );
 
-    $.post("https://ec2-35-163-195-254.us-west-2.compute.amazonaws.com/api/analyze", data=req)
+    $.post("https://csce489.jsmoorman.com/api/analyze", data=req)
         .done(function(res) {
-            if(res['gilded?'] === 'True') {
+            if(res['prediction'] === 'True') {
                 $("#resgilded").html("Your comment has a chance of being gilded!").css({'color': 'green'});
             }
             else {

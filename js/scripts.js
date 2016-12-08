@@ -2,6 +2,27 @@ $(document).ready(function() {
 
 });
 
+var createTable = function(obj){
+    keys = [];
+    values = [];
+    $.each(obj, function(key, val){
+        console.log(key + ': ' + val);
+        keys.push(key);
+        values.push(val);
+    });
+    th = '<thead><tr>'
+    tb = '<tbody><tr>'
+    keys.forEach(function(key) {
+        th = th.concat('<th>' + key + '</th>');
+    });
+    th = th.concat('</tr></thead>');
+    values.forEach(function(value) {
+        tb = tb.concat('<td>' + value + '</td>');
+    });
+    tb = tb.concat('</tr></tbody>');
+    return ("<table class='table'>" + th + tb + "</table>");
+}
+
 var callapi = function() {
     $.get("https://ec2-35-163-195-254.us-west-2.compute.amazonaws.com/api/")
         .done(function(res) {
@@ -18,33 +39,29 @@ $( "form" ).on( "submit", function( event ) {
     var req = $( this ).serialize()
     var unixtime = Date.parse(new Date())/1000
 
-    // req += ("&datetime=" + unixtime)
-    // // TODO: Read in actual flair
-    // req += ("&flair=" + 'testflair')
-
     console.log( req );
 
     $.post("https://csce489.jsmoorman.com/api/analyze", data=req)
         .done(function(res) {
+            // Give prediction
             if(res['prediction'] === 'True') {
-                $("#resgilded").html("Your comment has a chance of being gilded!").css({'color': 'green'});
+                $("#resgilded").html("Yes!").css({'color': 'green'});
             }
             else {
-                $("#resgilded").html("Your comment does not have a chance of being gilded.").css({'color': 'red'});
+                $("#resgilded").html("No.").css({'color': 'red'});
             }
-
-            // $("#res").css({'color': 'green'});
-            // $("#res").css({"display": "block"})
-            // $("#ressubreddit").html(res['subreddit']);
-            // $("#resdatetime").html(new Date(res['datetime'] * 1000));
-            // $("#rescomment").html(res['comment']);
+            // Remove prediction for table creation
+            delete res['prediction'];
+            // Create table html string
+            var table = createTable(res);
+            // Table of features in page
+            $('#fintro').html('Here are the relevant features of your comment:');
+            $('#featureTable').html(table);
         })
         .fail(function(res) {
-            // $("#res").css({'color': 'red'});
-            // $("#res").css({"display": "none"})
+            $("#fintro").html("Error with request or server. Please try again.").css({'color': 'red'});
         })
         .always(function(res) {
-            // $("#response").html(JSON.stringify(res))
             console.log(res)
         });
 

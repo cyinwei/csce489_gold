@@ -19,7 +19,7 @@
 
   <div class="container">
     <h1>
-      Page Skeleton
+      Reddit Gold Checker
     </h1>
 
     <form>
@@ -29,7 +29,7 @@
           <div class="col-sm-2">
             <div class="form-group required">
               <label for="score">Score:</label>
-              <input type="number" class="form-control" id="score" name="score" placeholder='0' required></input>
+              <input type="number" class="form-control" id="score" name="score" placeholder='Expected Score...' required></input>
             </div>
             <div class="form-group required">
               <label for="flair">Flair:</label>
@@ -64,21 +64,14 @@
       </div>
     </form>
 
-    <div id="classfification">
-      <h2>Will your comment be gilded?</h2>
-      <p id="resgilded"></p>
-    </div>
-    <!--<div id="res" style="display: none;">
-      <h2>Your submission</h2>
-      <h3>Subreddit:</h3>
-      <p id='ressubreddit'></p>
-      <h3>Date and time:</h3>
-      <p id='resdatetime'></p>
-      <h3>Comment:</h3>
-      <p id='rescomment'></p>
-    </div>
     </br>
-    <p id="response"></p>-->
+
+    <div id="classfification">
+      <h2 align="center">Does your comment have a chance of being gilded?  <span id="resgilded"></span></h2>
+      </br>
+      <h4 id='fintro' align="center"></h4>
+      <div id='featureTable'></div>
+    </div>
 
   </div>
   <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>

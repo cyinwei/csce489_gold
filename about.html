@@ -1,0 +1,78 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Reddit Gold Analysis</title>
+  <meta name="description" content="Reddit Gold Analysis">
+  <meta name="author" content="Jeremy Moorman & John Ansted">
+
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/styles.css?v=1.0">
+  <!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
+  <![endif]-->
+</head>
+
+<body>
+
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/index.html">Home</a>
+      </div>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li><a href="/about.html">About</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <h1>About This Project</h1>
+    <h3>Team</h3>
+    <h4>Edit: Thanks for the gold kind stranger</h4>
+    <h3>Class</h3>
+    <p>Texas A&amp;M University CSCE 489 with Dr. Caverlee<p>
+    <b>Team Members</b>
+    <ul>
+    <li>Jeremy Moorman</li>
+    <li>John Ansted</li>
+    <li>Charlie Zhang</li>
+    </ul>
+    <h3>Overview and Motivation</h3>
+    <p>In our project, we analyzed reddit comments from January to May in 2015 to create a classifier that analyzes comments and determines whether or not they will be gilded.</p>
+    <p>Our motivation was to be able to predict whether a comment would be gilded when submitted to a specific subreddit. By being able to come up with a probability percentage, we could could   create a new sorting algorithm that sorted the comments of a post by how likely they were to be gilded rather than the original scoring sorting.<p>
+    <h3>Initial Questions</h3>
+    <p>We originally wanted to analyze what features (such as word count or time of posting) of make a comment gild worthy. We expected these features to differ between subreddits and we wanted to see how.<p>
+
+    <h3>Final Project</h3>
+    <p>For our final project we decided to build a django webserver that takes in a comment and returns a boolean value of whether or not our classifier believes it will become gilded. Our original idea was to take a completely new comment and attempt to classify it without any score associated with it, but the task of attempting to predict a comment's score to then use in our classifier was not only inaccurate in the end, but a completely different problem that would require much more time to tackle. In the end we decided to just let the user of our application give the expected score of their comment.</p>
+    <div id="links" align="center">
+    <a href="https://github.com/jsmoorman/csce489_gold">
+        <img border="0" alt="Github Link" src="https://assets-cdn.github.com/images/modules/open_graph/github-mark.png" width="100" height="50" hspace="10">
+    </a>
+    <a href="https://github.com/jsmoorman/csce489_gold/blob/master/Project%20Notebook.ipynb">
+        <img border="0" alt="Jupyter Notebook Link" src="https://avatars1.githubusercontent.com/u/7388996?v=3&s=400" width="50" height="50">
+    </a>
+    <a href="https://www.youtube.com/watch?v=8thl64JJR0Y">
+        <img border="0" alt="Youtube Link" src="https://lh5.ggpht.com/jZ8XCjpCQWWZ5GLhbjRAufsw3JXePHUJVfEvMH3D055ghq0dyiSP3YxfSc_czPhtCLSO=w300" width="75" height="75" hspace="15">
+    </a>
+    </div>
+
+  </div>
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</body>
+</html>
